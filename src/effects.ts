@@ -42,16 +42,11 @@ export const alertEffects = (options?: {
           .filter(a1 => a1.type === MessagesActions.addMessages.type)
           .filter(a1 => (<MessagesModel[]> a1.payload).some(msg => msg.id === m.id));
         const removeAction = MessagesActions.removeById(m.id);
-        // return Observable
-        //   .interval(timeout, queue)
-        //   .first()
-        //   .takeUntil(stopCondition)
-        //   .map(() => removeAction)
-        //   .do(console.info);
-        //   ;
+
         return Observable.of(removeAction)
           .takeUntil(stopCondition)
-          .delay(timeout, queue);
+          .delay(timeout, queue)
+          .do(console.info);
       });
       // console.log("TIMEOUT IS ", timeout);
       // console.log("ACTIONS!!!: ", ...removeStreams);
