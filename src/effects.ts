@@ -35,23 +35,21 @@ export const alertEffects = (options?: {
   return store.action$
     .filter(a => a.type === MessagesActions.addMessages.type)
     .switchMap(a => {
-      const messages = <MessagesModel[]> a.payload;
+      const messages = <MessagesModel[]>a.payload;
+
       const removeStreams = messages.map(m => {
         const stopCondition = store.action$
           .filter(a1 => a1 !== a)
           .filter(a1 => a1.type === MessagesActions.addMessages.type)
-          .filter(a1 => (<MessagesModel[]> a1.payload).some(msg => msg.id === m.id));
+          .filter(a1 => (<MessagesModel[]>a1.payload).some(msg => msg.id === m.id));
+
         const removeAction = MessagesActions.removeById(m.id);
 
         return Observable.of(removeAction)
           .takeUntil(stopCondition)
-          .delay(timeout, queue)
-          .do(console.info);
+          .delay(timeout);
       });
-      // console.log("TIMEOUT IS ", timeout);
-      // console.log("ACTIONS!!!: ", ...removeStreams);
       return Observable
-        .merge(...removeStreams)
-        .do(console.log);
+        .merge(...removeStreams);
     });
 };

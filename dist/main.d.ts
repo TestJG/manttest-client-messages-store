@@ -63,9 +63,10 @@ declare module 'manttest-client-messages-store/effects' {
 	import "rxjs/add/operator/delay";
 	import "rxjs/add/operator/takeUntil";
 	import "rxjs/add/operator/do";
+	import { Action } from "rxstore";
 	import { MessagesStore } from "manttest-client-messages-store/store";
 	export const alertEffects: (options?: {
 		timeout?: number | undefined;
-	} | undefined) => (store: MessagesStore) => Observable<any>;
+	} | undefined) => (store: MessagesStore) => Observable<Action>;
 }
 
